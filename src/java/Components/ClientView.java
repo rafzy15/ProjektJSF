@@ -18,7 +18,7 @@ public class ClientView {
     private List<Client> filteredClients = clients;
     public ClientView(){
         System.out.println("Create ClientView");
-        System.out.println("dodanie do gita");
+        
     }
     public void addClient(Client client){
         client.idIncrement();
