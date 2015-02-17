@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 
-/**
+/** 
  * @author Rafal
  */
 @ManagedBean
