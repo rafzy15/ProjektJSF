@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Projekt JSF</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <h:panelGrid id ="add" columns="2" cellpadding="1" >
+                <p:outputLabel for ="name" value="Imie : "/> 
+                <p:inputText id="name" value ="#{client.name}" required="true"/>
+                <p:outputLabel for ="surname" value="Nazwisko : "/>
+                <p:inputText id="surname" value ="#{client.surname}" required="true"/>
+                <p:outputLabel for ="surname" value="Nr Telefonu : "/>
+                <p:inputText id="telephone" value ="#{client.telephone}" required="true">
+                    <f:validateDoubleRange minimum="100" maximum="999999999" />
+                </p:inputText>
+                <p:outputLabel for ="surname" value="Komentarz : "/>
+                <p:inputText id="comment" value ="#{client.comment}"/>
+                <p:commandButton value="Dodaj Klienta" actionListener="#{clientView.addClient(client)}" update =":form2:clientTable" icon="ui-icon-check" />
+                <h:outputText id="display" value="#{client.name} #{client.surname} #{client.id} #{client.telephone}" />
+
+            </h:panelGrid>
+        </h:form>
+        <h:form id="form2">
+            <p:dataTable id="clientTable" var="client" editable="true" value="#{clientView.clients}" widgetVar="clientsTable"
+                         emptyMessage="nie znaleziono klientow" filteredValue="#{clientView.filteredClients}">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Przeszukaj wszystkie pola:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('clientsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column filterBy="#{client.id}" headerText="Id" filterMatchMode="contains">
+                    <h:outputText value="#{client.id}" />
+                </p:column>
+                <p:column filterBy="#{client.name}" headerText="Imie" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{client.name}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{client.name}" label="Imie" style="width:100%" required="true"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{client.surname}" headerText="Nazwisko"  filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{client.surname}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{client.surname}" label="Nazwisko" style="width:100%"  required="true"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{client.date   }" headerText="Data dodania"  filterMatchMode="contains">
+                    <h:outputText value="#{client.date}" />
+                </p:column>
+                <p:column filterBy="#{client.telephone}" headerText="Telefon"  filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{client.telephone}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{client.telephone}" label="Telefon" style="width:100%"  required="true"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="komentarz" >
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{client.comment}"/></f:facet>                  
+                        <f:facet name="input"><p:inputText value="#{client.comment}" label="komentarz" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column> 
+                <p:column style="width:32px"  headerText="Edit">
+                    <p:rowEditor />
+                </p:column>
+                <p:column>
+                    <p:commandButton update="clientTable" actionListener="#{clientView.removeClient(client)}" value="Usuń" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
